@@ -5,6 +5,9 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
 interface ShowsType {
@@ -58,23 +61,29 @@ const Home: React.FC = () => {
 
   return (
     <Container>
-      {shows.slice(0, 50).map((show) => (
-        <Card key={show.id} sx={{ maxWidth: 345 }}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              image={show.image.medium}
-              alt="green iguana"
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {show.name}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-        ))}
-      {/* {error && <p className="error">{error}</p>} */}
+      <Box sx={{ width: '100%' }}>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid item xs={6}>
+        {shows.slice(0, 50).map((show) => (
+          <Card key={show.id} sx={{ maxWidth: 345 }}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                image={show.image.medium}
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {show.name}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+          ))}
+        {error && <p className="error">{error}</p>}
+        </Grid>
+      </Grid>
+      </Box>
     </Container>
   );
 };
