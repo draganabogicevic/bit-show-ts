@@ -17,7 +17,7 @@ const findSelected = async (path: string) => {
 }
 
 const findSelectedCrew = async (path: string) => {
-  const response = await apiClient.get<ShowCrewType[]>(`http://api.tvmaze.com/shows${path}`);
+  const response = await apiClient.get<ShowCrewType>(`http://api.tvmaze.com/shows${path}`);
   return response.data;
 }
 

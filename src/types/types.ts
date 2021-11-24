@@ -15,9 +15,9 @@ export interface ShowDataType {
 }
 
 export interface ShowCrewType {
-  person: {
-  id?: any;
+  character: {
+  id: number;
   name: string;
   image: {medium: string, original: string};
-  }[];
+  }
 }

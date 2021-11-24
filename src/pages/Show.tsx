@@ -4,6 +4,7 @@ import Service from "../service/service"
 import Grid from '@mui/material/Grid';
 import { ShowDataType, ShowCrewType } from '../types/types';
 import style from "./Show.module.css"
+import ReactHtmlParser from 'react-html-parser'; 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -22,18 +23,21 @@ const defaultShow: ShowDataType = {
   genres: ["", "", ""],
   summary: ""
 };
-const defaultShowCrew: ShowCrewType[] = [
-  // {
-  //   id?: any,
-  //   name: string,
-  //   image: {medium: string, original: string},
-  // }
-];
+const defaultShowCrew: ShowCrewType = {
+  character: {
+    id: 0,
+    name: "",
+    image: {
+      medium: "",
+      original: ""
+    }
+  }
+}; 
 
 const Show: React.FC = () => {
   let location = useLocation();
   let path = location.pathname;
-  let pathForCrew = path+"/cast"
+  let pathForCrew = path+"/cast";
  
 
   console.log(path)
@@ -42,8 +46,8 @@ const Show: React.FC = () => {
     defaultShow
   )
 
-  const [crew, setCrew]: [ShowCrewType[], (crew: ShowCrewType[]) => void] = React.useState(
-    defaultShowCrew
+  const [crew, setCrew]: [ShowCrewType, (crew: ShowCrewType) => void] = React.useState(
+  defaultShowCrew
   )
 
   const [loading, setLoading]: [
@@ -80,8 +84,6 @@ const Show: React.FC = () => {
        });
    },[pathForCrew]);
 
-  console.log(crew);
-
 
   return (
     <Fragment>
@@ -94,29 +96,29 @@ const Show: React.FC = () => {
             <div className={style.genres}>{show.genres[0]}</div>
             <div className={style.genres}>{show.genres[1]}</div>
             <div className={style.genres}>{show.genres[2]}</div>
-            <div className={style.summary}>{show.summary}</div>
+            <div className={style.summary}>{ ReactHtmlParser (show.summary)}</div>
           </Grid>
       </Grid>
-      <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      {/* {crew.map((actor) => (
-          <Grid item lg={2} key={actor.person.id}>
-            <Card key={show.id} sx={{ maxWidth: 345 }}>
+      {/* <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+      {crew.map((actor) => (
+          <Grid item lg={2} key={actor.character.id}>
+            <Card key={actor.character.id} sx={{ maxWidth: 345 }}>
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  image={actor.person.image.medium}
+                  image={actor.character.image.medium}
                   alt="show photo"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {actor.person.name}
+                    {actor.character.name}
                   </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
         </Grid>
-          ))} */}
-      </Grid>
+         ))}
+      </Grid> */}
 
     </Fragment>
   )
