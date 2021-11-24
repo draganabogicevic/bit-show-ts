@@ -22,7 +22,13 @@ const defaultShow: ShowDataType = {
   genres: ["", "", ""],
   summary: ""
 };
-const defaultShowCrew: ShowCrewType[] = [];
+const defaultShowCrew: ShowCrewType[] = [{
+  person: {
+    id?: any,
+    name: string,
+    image: {medium: string, original: string},
+    }
+}];
 
 const Show: React.FC = () => {
   let location = useLocation();
@@ -92,24 +98,24 @@ const Show: React.FC = () => {
           </Grid>
       </Grid>
       <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      {crew.map((actor) => (
-          <Grid item lg={2} key={actor.id}>
+      {/* {crew.map((actor) => (
+          <Grid item lg={2} key={actor.person.id}>
             <Card key={show.id} sx={{ maxWidth: 345 }}>
               <CardActionArea>
                 <CardMedia
                   component="img"
-                  image={actor.image.medium}
+                  image={actor.person.image.medium}
                   alt="show photo"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {actor.name}
+                    {actor.person.name}
                   </Typography>
                 </CardContent>
               </CardActionArea>
             </Card>
         </Grid>
-          ))}
+          ))} */}
       </Grid>
 
     </Fragment>
