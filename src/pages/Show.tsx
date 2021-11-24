@@ -22,13 +22,13 @@ const defaultShow: ShowDataType = {
   genres: ["", "", ""],
   summary: ""
 };
-const defaultShowCrew: ShowCrewType[] = [{
-  person: {
-    id?: any,
-    name: string,
-    image: {medium: string, original: string},
-    }
-}];
+const defaultShowCrew: ShowCrewType[] = [
+  // {
+  //   id?: any,
+  //   name: string,
+  //   image: {medium: string, original: string},
+  // }
+];
 
 const Show: React.FC = () => {
   let location = useLocation();
