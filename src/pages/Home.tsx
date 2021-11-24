@@ -1,27 +1,31 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import Loader from "../components/Loader"
+import { Link } from "react-router-dom"
+// import ShowCard from "../components/ShowCard"
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Service from "../service/service"
+import { ShowDataTypes } from "../types/types";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { CardActionArea} from '@mui/material';
 
-interface ShowsType {
-  id: number;
-  name: string;
-  image: {medium: string, original: string}
-}
+// interface ShowTypes {
+//   id: number;
+//   name: string;
+//   image: string;
+// }
 
-const defaultShow: ShowsType[] = [];
+const defaultShow: ShowDataTypes[] = [];
 
 const Home: React.FC = () => {
-  const [shows, setShows]: [ShowsType[], (shows: ShowsType[]) => void] = React.useState(
+
+  const [shows, setShows]: [ShowDataTypes[], (shows: ShowDataTypes[]) => void] = React.useState(
     defaultShow
-  );
+  )
 
   const [loading, setLoading]: [
     boolean,
@@ -31,57 +35,52 @@ const Home: React.FC = () => {
   const [error, setError]: [string, (error: string) => void] = React.useState(
     ''
   );
-
-
   React.useEffect(() => {
-    axios
-      .get<ShowsType[]>("http://api.tvmaze.com/shows", {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        timeout: 10000,
-      })
-      .then((response) => {
-        setShows(response.data);
-        setLoading(false);
-      })
-      .catch((ex) => {
-        let error = axios.isCancel(ex)
-          ? 'Request Cancelled'
-          : ex.code === 'ECONNABORTED'
-          ? 'A timeout has occurred'
-          : ex.response.status === 404
-          ? 'Resource Not Found'
-          : 'An unexpected error has occurred';
-
-        setError(error);
+   Service.findAll()
+    .then((response) => {
+      setShows(response);
+      setLoading(false);
+    })
+    .catch((ex) => {
+        setError(ex);
         setLoading(false);
       });
   }, []);
+
+  console.log(shows)
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <Container>
       <Box sx={{ width: '100%' }}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={6}>
         {shows.slice(0, 50).map((show) => (
-          <Card key={show.id} sx={{ maxWidth: 345 }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                image={show.image.medium}
-                alt="green iguana"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  {show.name}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          <Grid item lg={4} key={show.id}>
+          <Link to={`/${show.id}`}>
+            <Card key={show.id} sx={{ maxWidth: 345 }}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  image={show.image.medium}
+                  alt="show photo"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {show.name}
+                  </Typography>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {show.rating.average}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Link>  
+        </Grid>
           ))}
         {error && <p className="error">{error}</p>}
-        </Grid>
+        
       </Grid>
       </Box>
     </Container>
@@ -89,3 +88,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+

@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="/show:id" element={<Show />}/>
+        <Route path="/:id" element={<Show />}/>
         <Route path="/about" element={<About />}/>
       </Routes>
     </Fragment>
@@ -21,5 +21,7 @@ const App: React.FC = () => {
 }
 
 export default App;
+
+
 
 

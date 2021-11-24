@@ -1,13 +1,30 @@
-import http from "../http-common";
-import DataTypes from "../types/types";
+import axios from "axios";
+import { ShowDataTypes, ShowDataType, ShowCrewType } from "../types/types";
 
+const apiClient = axios.create({
+  baseURL: "http://api.tvmaze.com/shows",
+  
+});
 
-const getAll = () => {
-  return http.get<DataTypes[]>("http://api.tvmaze.com/shows");
+const findAll = async () => {
+  const response = await apiClient.get<ShowDataTypes[]>("http://api.tvmaze.com/shows");
+  return response.data;
 }
-const DataService = {
-  getAll
-};
 
+const findSelected = async (path: string) => {
+  const response = await apiClient.get<ShowDataType>(`http://api.tvmaze.com/shows${path}`);
+  return response.data;
+}
 
-export default DataService;
+const findSelectedCrew = async (path: string) => {
+  const response = await apiClient.get<ShowCrewType[]>(`http://api.tvmaze.com/shows${path}`);
+  return response.data;
+}
+
+const Service = {
+  findAll,
+  findSelected,
+  findSelectedCrew
+}
+
+export default Service;
