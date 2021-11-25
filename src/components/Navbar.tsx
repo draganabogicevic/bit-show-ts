@@ -4,8 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link } from "react-router-dom";
-import style from "./Navbar.module.css"
+import LinkStyle from "./UI/LinkStyle"
 
 
 const Navbar: React.FC = () => {
@@ -14,16 +13,16 @@ const Navbar: React.FC = () => {
       <AppBar position="static">
         <Container fixed>
           <Toolbar sx={{ justifyContent: 'space-between' }}>
-            <Link to="/" className={style.link}>
+            <LinkStyle to="/" >
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 BIT Shows
               </Typography>
-            </Link>
-            <Link to="/about" className={style.link}>
+            </LinkStyle>
+            <LinkStyle to="/about">
               <Typography color="inherit">
                 About
               </Typography>
-            </Link>
+            </LinkStyle>
           </Toolbar>
         </Container>
       </AppBar>

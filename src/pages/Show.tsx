@@ -89,9 +89,9 @@ const Show: React.FC = () => {
   console.log(crew)
   return (
       <Container>
-        <Box sx={{ width: "80%", margin: "auto" }}>
+        <Box style={{ width: "80%", margin: "auto", marginBottom: "80px" }}>
           <ShowDetails show={show}/>
-          <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             <Grid item lg={11}>
               <h1>Actors</h1>
             </Grid>

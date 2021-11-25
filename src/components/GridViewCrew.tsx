@@ -1,10 +1,9 @@
 import React from "react";
-import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea} from '@mui/material';
-import style from "./GridViewCrew.module.css"
+import CardStyle from "./UI/CardStyle";
 
 
 interface GridViewCrewProps {
@@ -21,7 +20,7 @@ const GridViewCrew: React.FC<GridViewCrewProps> = props => {
 
 
   return (
-    <Card className={style.card} key={props.actor.person.id} sx={{ maxWidth: 345 }}>
+    <CardStyle key={props.actor.person.id}>
       <CardActionArea>
         <CardMedia
           component="img"
@@ -34,7 +33,7 @@ const GridViewCrew: React.FC<GridViewCrewProps> = props => {
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </CardStyle>
   )
 } 
 

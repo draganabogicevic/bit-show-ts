@@ -21,10 +21,16 @@ const findSelectedCrew = async (path: string) => {
   return response.data;
 }
 
+const filterSearchedShowsByName = async (query: string) => {
+  const response = await apiClient.get<ShowDataTypes[]>(`https://api.tvmaze.com/search/shows?q=${query}`);
+  return response.data;
+}
+
 const Service = {
   findAll,
   findSelected,
-  findSelectedCrew
+  findSelectedCrew,
+  filterSearchedShowsByName
 }
 
 export default Service;

@@ -1,10 +1,14 @@
 import React from "react";
-import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea} from '@mui/material';
-import style from "./ShowCard.module.css"
+import CardStyle from "./UI/CardStyle";
+import style from "styled-components";
+
+const StyledImg = style.img`
+height: 450px;
+width: auto;
+`
 
 interface ShowCardProps {
   show: {
@@ -17,13 +21,11 @@ interface ShowCardProps {
 
 const ShowCard: React.FC<ShowCardProps> = props => {
   return (
-    <Card key={props.show.id} sx={{ maxWidth: 345 }} className={style.card}>
+    <CardStyle key={props.show.id}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          image={props.show.image.original}
+        <StyledImg
+          src={props.show.image.original}
           alt="show photo"
-          className={style.photo}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -34,7 +36,7 @@ const ShowCard: React.FC<ShowCardProps> = props => {
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </CardStyle>
   )
 } 
 

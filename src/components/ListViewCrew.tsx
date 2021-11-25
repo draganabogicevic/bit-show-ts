@@ -3,7 +3,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import style from "./ListViewCrew.module.css"
+import style from "styled-components";
+
+const StyledImg = style.img`
+width: 40px;
+border-radius: 50%;
+`
 
 
 interface ListViewCrewProps {
@@ -21,7 +26,7 @@ const ListViewCrew: React.FC<ListViewCrewProps> = props => {
       <ListItem key={props.actor.person.id}>
         <ListItemAvatar>
           <Avatar>
-            <img className={style.actorPhoto} src={props.actor.person.image.medium} alt="actor" />
+            <StyledImg src={props.actor.person.image.medium} alt="actor" />
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary={props.actor.person.name} />

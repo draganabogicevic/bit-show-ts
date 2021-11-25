@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Show from "./pages/Show";
 import About from "./pages/About";
+import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
 
 
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/:id" element={<Show />}/>
         <Route path="/about" element={<About />}/>
       </Routes>
+      <Footer />
     </Fragment>
   ) 
 }
