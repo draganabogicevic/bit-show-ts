@@ -23,16 +23,7 @@ const defaultShow: ShowDataType = {
   genres: ["", "", ""],
   summary: ""
 };
-const defaultShowCrew: ShowCrewType = {
-  character: {
-    id: 0,
-    name: "",
-    image: {
-      medium: "",
-      original: ""
-    }
-  }
-}; 
+const defaultShowCrew: ShowCrewType[] = []; 
 
 const Show: React.FC = () => {
   let location = useLocation();
@@ -46,7 +37,7 @@ const Show: React.FC = () => {
     defaultShow
   )
 
-  const [crew, setCrew]: [ShowCrewType, (crew: ShowCrewType) => void] = React.useState(
+  const [crew, setCrew]: [ShowCrewType[], (crew: ShowCrewType[]) => void] = React.useState(
   defaultShowCrew
   )
 
@@ -84,7 +75,7 @@ const Show: React.FC = () => {
        });
    },[pathForCrew]);
 
-
+   console.log(crew[0].character.id)
   return (
     <Fragment>
        <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -99,7 +90,7 @@ const Show: React.FC = () => {
             <div className={style.summary}>{ ReactHtmlParser (show.summary)}</div>
           </Grid>
       </Grid>
-      {/* <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+      <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       {crew.map((actor) => (
           <Grid item lg={2} key={actor.character.id}>
             <Card key={actor.character.id} sx={{ maxWidth: 345 }}>
@@ -118,7 +109,7 @@ const Show: React.FC = () => {
             </Card>
         </Grid>
          ))}
-      </Grid> */}
+      </Grid>
 
     </Fragment>
   )
