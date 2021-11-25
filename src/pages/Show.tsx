@@ -1,16 +1,18 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
-import GridViewCrew from "../components/GridViewCrew"
-import ShowDetails from "../components/ShowDetails"
-import Service from "../service/service"
+import GridViewCrew from "../components/GridViewCrew";
+import ShowDetails from "../components/ShowDetails";
+import Loader from "../components/Loader";
+import Service from "../service/service";
 import { ShowDataType, ShowCrewType } from '../types/types';
 import ListViewCrew from "../components/ListViewCrew"
-import style from "./ShowDetails.module.css"
 import Grid from '@mui/material/Grid';
 import ViewComfyIcon from '@mui/icons-material/ViewComfy';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import style from "./Show.module.css";
 
 const defaultShow: ShowDataType = {
   name: "",
@@ -30,9 +32,7 @@ const Show: React.FC = () => {
   let location = useLocation();
   let path = location.pathname;
   let pathForCrew = path+"/cast";
- 
 
-  console.log(path)
 
   const [show, setShow]: [ShowDataType, (show: ShowDataType) => void] = React.useState(
     defaultShow
@@ -82,22 +82,30 @@ const Show: React.FC = () => {
      setGridView(!gridView);
    }
    
+   if (loading) {
+    return <Loader />
+  }
+
+  console.log(crew)
   return (
-    <Fragment>
-      <ShowDetails show={show}/>
-      <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item lg={11}>
-          <h1>Actors</h1>
-        </Grid>
-        <Grid item lg={1}>
-          { gridView? (<ViewListIcon  sx={{ fontSize: 40 }} onClick={toggleView}/>) :
-          (<ViewComfyIcon  sx={{ fontSize: 40 }} onClick={toggleView}/>) }
-        </Grid>   
-        {crew.map((actor) => gridView? (<Grid item lg={2} key={actor.person.id}><GridViewCrew actor={actor}/></Grid>) 
-        : ( <Box sx={{ justifyContent: 'center' }}><List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}><ListViewCrew actor={actor} /></List></Box>)
-        )}
-      </Grid>
-    </Fragment>
+      <Container>
+        <Box sx={{ width: "80%", margin: "auto" }}>
+          <ShowDetails show={show}/>
+          <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            <Grid item lg={11}>
+              <h1>Actors</h1>
+            </Grid>
+            <Grid item lg={1}>
+              { gridView? (<ViewListIcon  sx={{ fontSize: 40 }} onClick={toggleView}/>) :
+              (<ViewComfyIcon  sx={{ fontSize: 40 }} onClick={toggleView}/>) }
+            </Grid>   
+            {crew.map((actor, index) => gridView? (<Grid item lg={2} key={index}><GridViewCrew actor={actor} /></Grid>) 
+            : ( <Box sx={{ justifyContent: 'center' }}><List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}><ListViewCrew actor={actor} /></List></Box>)
+            )}
+          </Grid>
+        {error && <p className="error">{error}</p>}
+      </Box>  
+    </Container>
   )
 }
 

@@ -18,6 +18,8 @@ interface GridViewCrewProps {
 };
 
 const GridViewCrew: React.FC<GridViewCrewProps> = props => {
+
+
   return (
     <Card className={style.card} key={props.actor.person.id} sx={{ maxWidth: 345 }}>
       <CardActionArea>
