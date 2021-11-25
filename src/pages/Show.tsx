@@ -1,15 +1,16 @@
 import React, { Fragment } from "react";
 import { useLocation } from "react-router-dom";
+import GridViewCrew from "../components/GridViewCrew"
+import ShowDetails from "../components/ShowDetails"
 import Service from "../service/service"
-import Grid from '@mui/material/Grid';
 import { ShowDataType, ShowCrewType } from '../types/types';
-import style from "./Show.module.css"
-import ReactHtmlParser from 'react-html-parser'; 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea} from '@mui/material';
+import ListViewCrew from "../components/ListViewCrew"
+import style from "./ShowDetails.module.css"
+import Grid from '@mui/material/Grid';
+import ViewComfyIcon from '@mui/icons-material/ViewComfy';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
 
 const defaultShow: ShowDataType = {
   name: "",
@@ -50,6 +51,8 @@ const Show: React.FC = () => {
     ''
   );
   
+  const [gridView, setGridView] = React.useState(true);
+  
 
    React.useEffect(() => {
     Service.findSelected(path)
@@ -75,44 +78,30 @@ const Show: React.FC = () => {
        });
    },[pathForCrew]);
 
-   console.log(crew[0].character.id)
+   const toggleView = () => {
+     setGridView(!gridView);
+   }
+   
   return (
     <Fragment>
-       <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          <Grid item lg={6}>
-            <img src={show.image.original} className={style.photo} alt="show"/>
-          </Grid>
-          <Grid item lg={6}>
-            <h1>{show.name}</h1>
-            <div className={style.genres}>{show.genres[0]}</div>
-            <div className={style.genres}>{show.genres[1]}</div>
-            <div className={style.genres}>{show.genres[2]}</div>
-            <div className={style.summary}>{ ReactHtmlParser (show.summary)}</div>
-          </Grid>
-      </Grid>
+      <ShowDetails show={show}/>
       <Grid className={style.container} container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      {crew.map((actor) => (
-          <Grid item lg={2} key={actor.character.id}>
-            <Card key={actor.character.id} sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  image={actor.character.image.medium}
-                  alt="show photo"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {actor.character.name}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
+        <Grid item lg={11}>
+          <h1>Actors</h1>
         </Grid>
-         ))}
+        <Grid item lg={1}>
+          { gridView? (<ViewListIcon  sx={{ fontSize: 40 }} onClick={toggleView}/>) :
+          (<ViewComfyIcon  sx={{ fontSize: 40 }} onClick={toggleView}/>) }
+        </Grid>   
+        {crew.map((actor) => gridView? (<Grid item lg={2} key={actor.person.id}><GridViewCrew actor={actor}/></Grid>) 
+        : ( <Box sx={{ justifyContent: 'center' }}><List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}><ListViewCrew actor={actor} /></List></Box>)
+        )}
       </Grid>
-
     </Fragment>
   )
 }
 
 export default Show;
+
+
+
