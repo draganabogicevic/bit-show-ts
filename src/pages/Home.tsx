@@ -17,11 +17,7 @@ const Home: React.FC = () => {
   const [shows, setShows]: [ShowDataTypes[], (shows: ShowDataTypes[]) => void] = React.useState(
     defaultShow
   )
-
-  const [searchedShows, setSearchedShows]: [ShowDataTypes[], (searchedShows: ShowDataTypes[]) => void] = React.useState(
-    defaultShow
-  )
-
+    
   const [queryText, setQueryText]: [string, (queryText: string) => void] = React.useState("")
 
   const [loading, setLoading]: [
@@ -32,6 +28,7 @@ const Home: React.FC = () => {
   const [error, setError]: [string, (error: string) => void] = React.useState(
     ''
   );
+
   React.useEffect(() => {
    Service.findAll()
     .then((response) => {
@@ -48,16 +45,27 @@ const Home: React.FC = () => {
     setQueryText(filteredText);
   }
 
+
+  let searchResult: ShowDataTypes[]= [];
+
+  if(queryText === "") {
+    searchResult = shows;
+  } else if(typeof parseFloat(queryText) === "number") {
+    searchResult = shows.filter(item => item.rating.average === parseFloat(queryText))
+  } else {
+    searchResult = shows.filter(item => item.name.toLowerCase().includes(queryText.toLowerCase()));
+  }
+
   if (loading) {
     return <Loader />
   }
 
   return (
     <Container>
-      <Box sx={{ width: "80%", margin: "auto" }}>
+      <Box style={{ width: "80%", margin: "auto", marginBottom: "50px" }}>
         <Search onSearch={handleSearch} queryText={queryText}/>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          {shows.slice(0, 50).map((show) => (
+          {searchResult.slice(0, 50).map((show) => (
             <Grid item md={4} key={show.id}>
               <LinkStyle to={`/${show.id}`}>
                 <ShowCard show={show} />
